@@ -18,18 +18,20 @@
 }
 
 :root {
-	--background: linear-gradient(190deg, #000000, #083344, #000000);
-	--header: linear-gradient(90deg, #083344, #06b6d4, #f472b6);
-	--btn: linear-gradient(135deg, #22d3ee, #0891b2);
-	--container: linear-gradient(180deg, #0c4a6e, #083344);
-	--second-btn: linear-gradient(135deg, #ec4899, #9d174d);
-	--white: #f0f9ff;
-	--grey: #bae6fd;
-	--dark: #082f49;
-	--dark-second: #0c4a6e;
-	--shadow: rgba(34, 211, 238, 0.3);
-	--ring: #22d3ee;
+	--background: linear-gradient(190deg, #020205 0%, #0a0a1a 50%, #020205 100%);
+	--header: linear-gradient(45deg, #1e1b4b, #4c1d95, #701a75, #1e1b4b);
+	--btn: linear-gradient(135deg, #d946ef, #7e22ce, #4c1d95, #a855f7);
+	--container: linear-gradient(180deg, rgba(76, 29, 149, 0.15), rgba(2, 2, 5, 0.95));
+	--second-btn: linear-gradient(135deg, #1e1b4b, #0f172a, #020617, #1e1b4b);
+	--border-radius: 15px;
+	--white: #f5f3ff;
+	--grey: #94a3b8;
+	--dark: #020205;
+	--dark-second: #0f172a;
+
+	--border: #7c3aed;
 }
+
 * {
 	margin: 0;
 	padding: 0;
@@ -120,42 +122,12 @@ header {
 	margin: 0 auto;
 	padding: 16px 32px;
 	background: var(--header);
-	border-radius: 5px;
-	box-shadow: -8px 8px 5px var(--shadow);
+	box-shadow: 0 0 3px 3px var(--border);
+	border-radius: var(--border-radius);
 	position: sticky;
 	top: 0;
 	z-index: 150;
 	overflow: hidden;
-}
-
-header::before {
-	content: '';
-	position: absolute;
-	bottom: -20px;
-	left: -20px;
-	width: 70px;
-	height: 70px;
-	border-radius: 50%;
-	background-image: url(./img/roulette.webp);
-	background-repeat: no-repeat;
-	background-size: cover;
-	transition: all 0.3s ease;
-	animation: spinSlow 12s linear infinite;
-	z-index: 100;
-}
-
-header::after {
-	content: '';
-	position: absolute;
-	top: -15px;
-	right: 150px;
-	width: 20px;
-	height: 20px;
-	border-radius: 50%;
-	border: 7px solid var(--white);
-	border-top-color: var(--ring);
-	border-bottom-color: var(--ring);
-	animation: spinSlow 12s linear reverse infinite;
 }
 
 @keyframes spinSlow {
@@ -183,7 +155,6 @@ header::after {
 .inherit-btn {
 	padding: 8px 12px;
 	border: 2px solid var(--second-btn);
-	border-radius: 12px;
 	font-size: 1rem;
 	color: var(--white);
 	font-weight: 700;
@@ -199,29 +170,71 @@ header::after {
 	position: relative;
 	background: var(--second-btn);
 	padding: 8px 12px;
-	border: none;
-	border-radius: 12px;
+	border: 2px solid var(--border);
+	border-radius: var(--border-radius);
 	font-size: 1rem;
 	color: var(--white);
 	font-weight: 700;
 	z-index: 1;
+	transition: all 0.4s ease;
 }
 
-.red-btn::after {
+.red-btn:hover {
+	transform: scale(0.95);
+	box-shadow: 0 0 13px var(--border);
+}
+
+.arrow {
+	position: fixed;
+	top: 50%;
+	left: 2%;
+	width: 2px;
+	height: 120px;
+	background: linear-gradient(
+		to bottom,
+		var(--grey) 0%,
+		var(--grey) 40%,
+		var(--border) 50%,
+		var(--grey) 60%,
+		var(--grey) 100%
+	);
+	background-size: 100% 250%;
+	animation: scroll-flow 0.9s infinite linear;
+}
+
+.arrow::before {
 	content: '';
 	position: absolute;
-	inset: 0;
-	border-radius: inherit;
-	border: 1px solid var(--white);
-	transition:
-		transform 0.35s ease,
-		opacity 0.35s ease;
-	z-index: -1;
+	bottom: 3px;
+	left: -1px;
+	width: 10px;
+	height: 10px;
+	border-left: 2px solid var(--grey);
+	border-bottom: 2px solid var(--grey);
+	transform: rotate(-45deg) translateX(-50%);
+	animation: arrow-glow 0.9s infinite linear;
 }
 
-.red-btn:hover::after {
-	transform: scale(1.15);
-	opacity: 0;
+@keyframes scroll-flow {
+	0% {
+		background-position: 0% 100%;
+	}
+	100% {
+		background-position: 0% 0%;
+	}
+}
+
+@keyframes arrow-glow {
+	0%,
+	80% {
+		border-color: var(--grey);
+	}
+	90% {
+		border-color: var(--border);
+	}
+	100% {
+		border-color: var(--grey);
+	}
 }
 
 .main-banner,
@@ -234,23 +247,29 @@ header::after {
 }
 
 .banner-container {
-	background-image: linear-gradient(90deg, rgba(17, 22, 65, 0.89) 30%, rgba(255, 255, 255, 0) 100%), url(./img/1.webp);
+	background-image: url(./img/1.webp);
 	background-repeat: no-repeat;
 	background-position: 65%;
 	background-size: cover;
 	display: flex;
 	flex-direction: column;
-	align-items: start;
+	align-items: center;
 	justify-content: space-evenly;
-	padding: 40px;
-	border-radius: 5px;
+	padding: 20px;
 	width: 50%;
 	height: 400px;
-	gap: 20px;
+	gap: 10px;
 }
 
 .banner-container p {
 	width: 70%;
+	text-shadow: 0 0 5px #000;
+	margin-bottom: 10px;
+}
+
+.title-box {
+	backdrop-filter: blur(1px);
+	padding: 2px;
 }
 
 .info-box {
@@ -276,13 +295,13 @@ header::after {
 }
 
 .btn-dep {
-	padding: 4px 14px;
-	border-radius: 10px;
+	padding: 8px 16px;
 	font-size: 1rem;
 	background: var(--btn);
 	color: var(--white);
 	font-weight: 800;
-	border: 3px solid var(--btn);
+	border: 3px solid var(--grey);
+	border-radius: var(--border-radius);
 	box-shadow:
 		1px 1px 2px var(--btn),
 		0 0 1em var(--btn),
@@ -292,6 +311,8 @@ header::after {
 
 .btn-dep:hover {
 	transform: scale(1.2);
+	background: var(--white);
+	color: var(--border);
 }
 
 .btn-dep:active {
@@ -301,12 +322,15 @@ header::after {
 }
 
 .banner-bonus-gift {
-	background-image: url(img/2.webp);
+	background: red url(img/2.webp);
 	padding: 20px;
 	background-size: cover;
 	background-repeat: no-repeat;
-	border-radius: 5px;
 	width: 25%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .banner-bonus-cash {
@@ -314,8 +338,11 @@ header::after {
 	padding: 20px;
 	background-size: cover;
 	background-repeat: no-repeat;
-	border-radius: 5px;
-	width: 35%;
+	width: 25%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .sb-container {
@@ -327,9 +354,9 @@ header::after {
 	width: 100%;
 	margin: 0 auto;
 	background: var(--header);
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	border-radius: 5px;
-	box-shadow: -2px 2px 4px var(--shadow);
+	box-shadow: 0 0 8px var(--border);
+	border-radius: 10%;
+	transition: all 0.5s ease;
 	overflow: hidden;
 	z-index: 1;
 }
@@ -338,8 +365,9 @@ header::after {
 	content: '';
 	position: absolute;
 	inset: 0;
-	background: linear-gradient(90deg, #0891b2, #064e3b, #020617);
+	background: var(--header);
 	opacity: 0;
+	transform: rotate(180deg);
 	transition: opacity 0.6s ease;
 	z-index: -1;
 }
@@ -349,7 +377,10 @@ header::after {
 }
 
 .sb-container:hover {
-	box-shadow: -5px 5px 3px var(--shadow);
+	transform: scale(0.96);
+	box-shadow:
+		0 0 3px var(--dark),
+		0 0 15px var(--border);
 }
 
 .sb-container:hover img {
@@ -366,22 +397,34 @@ header::after {
 .banner-bonus-gift,
 .banner-bonus-cash,
 .main-container {
-	background-color: var(--dark-second);
-	box-shadow: 0 0 11px var(--grey);
+	border-radius: var(--border-radius);
+}
+
+.banner-container,
+.banner-bonus-gift,
+.banner-bonus-cash,
+.main-container {
+	background-color: var(--dark);
 	transition: all 0.3s ease;
+	box-shadow: 0 0 3px 3px var(--border);
 }
 
 .banner-container:hover,
 .banner-bonus-gift:hover,
-.banner-bonus-cash:hover {
-	transform: translateY(2px);
-	box-shadow: -4px 4px 5px var(--shadow);
+.banner-bonus-cash:hover,
+.main-container:hover {
+	animation: pulse 0.7s infinite;
+}
+
+@keyframes pulse {
+	50% {
+		box-shadow: 0 0 10px var(--border);
+	}
 }
 
 .main-container {
 	background: var(--container);
 	padding: 20px 40px;
-	border-radius: 5px;
 }
 
 .popular-games {
@@ -407,7 +450,7 @@ header::after {
 	color: var(--white);
 	font-size: 1rem;
 	min-width: 320px;
-	border-radius: 5px;
+	border-radius: 12px;
 }
 
 td,
@@ -469,7 +512,6 @@ hr {
 	justify-content: space-between;
 	padding: 10px;
 	border: 1px solid var(--white);
-	border-radius: 10px;
 	margin: 10px 0;
 }
 
@@ -483,11 +525,10 @@ hr {
 	header {
 		gap: 10px;
 		width: 100%;
-		border-top-left-radius: 0;
-		border-top-right-radius: 0;
 	}
 
 	main {
+		position: relative;
 		width: 96%;
 		margin: 0 auto;
 	}
